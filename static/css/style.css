@@ -1,0 +1,27 @@
+body {
+  background: linear-gradient(135deg, #020617, #111827 55%, #0f172a);
+  color: #e2e8f0;
+  min-height: 100vh;
+}
+
+.card {
+  background: rgba(15, 23, 42, 0.95);
+  color: #e2e8f0;
+  border: 1px solid rgba(148, 163, 184, 0.2);
+}
+
+.bg-gradient {
+  background: linear-gradient(135deg, #0f172a, #1e3a8a);
+}
+
+.icon-box {
+  font-size: 1.5rem;
+  background: rgba(56, 189, 248, 0.15);
+  padding: 0.75rem;
+  border-radius: 0.75rem;
+}
+
+.table-dark {
+  --bs-table-bg: rgba(2, 6, 23, 0.9);
+  --bs-table-striped-bg: rgba(15, 23, 42, 0.85);
+}

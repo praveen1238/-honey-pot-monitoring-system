@@ -1,0 +1,37 @@
+{% extends 'base.html' %}
+{% block title %}Honeypot Monitoring System{% endblock %}
+{% block content %}
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark border-bottom border-secondary">
+  <div class="container">
+    <a class="navbar-brand fw-bold" href="{{ url_for('landing_page') }}">Honeypot Monitor</a>
+    <div class="ms-auto">
+      <a class="btn btn-outline-light" href="{{ url_for('admin_login') }}">Admin Login</a>
+    </div>
+  </div>
+</nav>
+<main class="container py-5">
+  <div class="row align-items-center g-5">
+    <div class="col-lg-7">
+      <span class="badge bg-info-subtle text-info-emphasis mb-3">Educational Monitoring Lab</span>
+      <h1 class="display-5 fw-bold mb-3">Observe decoy authentication attempts in a controlled environment.</h1>
+      <p class="lead text-secondary">This system mimics a server login surface, logs attacker behavior, and presents the data through a professional cyber defense dashboard.</p>
+      <div class="d-flex gap-3 flex-wrap">
+        <a class="btn btn-primary btn-lg" href="{{ url_for('honeypot_login') }}">Visit Honeytrap</a>
+        <a class="btn btn-outline-secondary btn-lg" href="{{ url_for('admin_login') }}">Open Dashboard</a>
+      </div>
+    </div>
+    <div class="col-lg-5">
+      <div class="card border-0 shadow-lg bg-gradient">
+        <div class="card-body p-4">
+          <h3 class="card-title">Security posture highlights</h3>
+          <ul class="list-group list-group-flush mt-3">
+            <li class="list-group-item bg-transparent">Captures IP, username, password, browser, and OS details.</li>
+            <li class="list-group-item bg-transparent">Tracks failed attempts and visualizes attack trends.</li>
+            <li class="list-group-item bg-transparent">Exports logs to CSV and PDF for incident review.</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</main>
+{% endblock %}

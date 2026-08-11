@@ -1,0 +1,206 @@
+{% extends 'base.html' %}
+{% block title %}Dashboard{% endblock %}
+{% block content %}
+<div class="container-fluid">
+  <div class="row min-vh-100">
+    <aside class="col-lg-3 col-xl-2 bg-dark border-end border-secondary p-3">
+      <h4 class="fw-bold mb-4">Honeypot Monitor</h4>
+      <div class="d-grid gap-2">
+        <a class="btn btn-outline-light text-start" href="{{ url_for('dashboard') }}">Dashboard</a>
+        <a class="btn btn-outline-light text-start" href="{{ url_for('export_csv') }}?ip={{ filters.ip }}&username={{ filters.username }}&date={{ filters.date }}&attack_count={{ filters.attack_count }}">Export CSV</a>
+        <a class="btn btn-outline-light text-start" href="{{ url_for('export_pdf') }}?ip={{ filters.ip }}&username={{ filters.username }}&date={{ filters.date }}&attack_count={{ filters.attack_count }}">Export PDF</a>
+        <a class="btn btn-outline-danger text-start" href="{{ url_for('admin_logout') }}">Logout</a>
+      </div>
+    </aside>
+    <main class="col-lg-9 col-xl-10 p-4">
+      <div class="d-flex justify-content-between align-items-center mb-4">
+        <div>
+          <h2 class="fw-bold">Attack Monitoring Dashboard</h2>
+          <p class="text-secondary mb-0">Monitoring fake login interactions in a controlled honeypot.</p>
+        </div>
+      </div>
+
+      <form class="row g-2 mb-4" method="get">
+        <div class="col-md-3">
+          <input type="text" class="form-control" name="ip" placeholder="Search IP" value="{{ filters.ip }}">
+        </div>
+        <div class="col-md-3">
+          <input type="text" class="form-control" name="username" placeholder="Search username" value="{{ filters.username }}">
+        </div>
+        <div class="col-md-2">
+          <input type="date" class="form-control" name="date" value="{{ filters.date }}">
+        </div>
+        <div class="col-md-2">
+          <input type="number" class="form-control" name="attack_count" placeholder="Min fails" value="{{ filters.attack_count }}">
+        </div>
+        <div class="col-md-2 d-grid">
+          <button class="btn btn-primary" type="submit">Apply</button>
+        </div>
+      </form>
+
+      <div class="row g-4 mb-4">
+        <div class="col-md-4">
+          <div class="card border-0 shadow-sm h-100">
+            <div class="card-body">
+              <div class="d-flex justify-content-between align-items-center">
+                <div>
+                  <h6 class="text-uppercase text-muted">Total Attempts</h6>
+                  <h3 class="fw-bold">{{ stats.total_attempts }}</h3>
+                </div>
+                <div class="icon-box">⚠️</div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="card border-0 shadow-sm h-100">
+            <div class="card-body">
+              <div class="d-flex justify-content-between align-items-center">
+                <div>
+                  <h6 class="text-uppercase text-muted">Unique IPs</h6>
+                  <h3 class="fw-bold">{{ stats.unique_ips }}</h3>
+                </div>
+                <div class="icon-box">🌐</div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="card border-0 shadow-sm h-100">
+            <div class="card-body">
+              <div class="d-flex justify-content-between align-items-center">
+                <div>
+                  <h6 class="text-uppercase text-muted">Recent Logs</h6>
+                  <h3 class="fw-bold">{{ stats.recent_logs|length }}</h3>
+                </div>
+                <div class="icon-box">📋</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="row g-4 mb-4">
+        <div class="col-lg-6">
+          <div class="card border-0 shadow-sm h-100">
+            <div class="card-body">
+              <h5 class="card-title">Attack Frequency Per Day</h5>
+              <canvas id="lineChart"></canvas>
+            </div>
+          </div>
+        </div>
+        <div class="col-lg-6">
+          <div class="card border-0 shadow-sm h-100">
+            <div class="card-body">
+              <h5 class="card-title">Browser Statistics</h5>
+              <canvas id="pieChart"></canvas>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="row g-4 mb-4">
+        <div class="col-lg-6">
+          <div class="card border-0 shadow-sm h-100">
+            <div class="card-body">
+              <h5 class="card-title">Top Attacker IPs</h5>
+              <ul class="list-group list-group-flush">
+                {% for item in stats.top_ips %}
+                <li class="list-group-item d-flex justify-content-between align-items-center bg-transparent">
+                  <span>{{ item.ip }}</span>
+                  <span class="badge bg-primary">{{ item.count }}</span>
+                </li>
+                {% endfor %}
+              </ul>
+            </div>
+          </div>
+        </div>
+        <div class="col-lg-6">
+          <div class="card border-0 shadow-sm h-100">
+            <div class="card-body">
+              <h5 class="card-title">Most Common Usernames</h5>
+              <canvas id="barChart"></canvas>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="card border-0 shadow-sm">
+        <div class="card-body">
+          <h5 class="card-title">Recent Attack Logs</h5>
+          <div class="table-responsive">
+            <table class="table table-dark table-striped">
+              <thead>
+                <tr>
+                  <th>Time</th>
+                  <th>IP</th>
+                  <th>Username</th>
+                  <th>Browser</th>
+                  <th>OS</th>
+                  <th>Failed Attempts</th>
+                </tr>
+              </thead>
+              <tbody>
+                {% for row in stats.recent_logs %}
+                <tr>
+                  <td>{{ row.created_at }}</td>
+                  <td>{{ row.ip_address }}</td>
+                  <td>{{ row.username }}</td>
+                  <td>{{ row.browser }}</td>
+                  <td>{{ row.operating_system }}</td>
+                  <td>{{ row.failed_attempts }}</td>
+                </tr>
+                {% endfor %}
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </main>
+  </div>
+</div>
+{% endblock %}
+{% block scripts %}
+<script>
+  const lineChart = new Chart(document.getElementById('lineChart'), {
+    type: 'line',
+    data: {
+      labels: {{ stats.timeline_labels | tojson }},
+      datasets: [{
+        label: 'Daily attacks',
+        data: {{ stats.timeline_counts | tojson }},
+        borderColor: '#38bdf8',
+        backgroundColor: 'rgba(56, 189, 248, 0.15)',
+        fill: true,
+        tension: 0.35
+      }]
+    },
+    options: { responsive: true, scales: { y: { beginAtZero: true } } }
+  });
+
+  const barChart = new Chart(document.getElementById('barChart'), {
+    type: 'bar',
+    data: {
+      labels: {{ stats.username_labels | tojson }},
+      datasets: [{
+        label: 'Attempts',
+        data: {{ stats.username_counts | tojson }},
+        backgroundColor: ['#38bdf8', '#818cf8', '#f59e0b', '#f43f5e', '#34d399']
+      }]
+    },
+    options: { responsive: true }
+  });
+
+  const pieChart = new Chart(document.getElementById('pieChart'), {
+    type: 'pie',
+    data: {
+      labels: {{ stats.browser_labels | tojson }},
+      datasets: [{
+        data: {{ stats.browser_counts | tojson }},
+        backgroundColor: ['#38bdf8', '#818cf8', '#f59e0b', '#f43f5e']
+      }]
+    },
+    options: { responsive: true }
+  });
+</script>
+{% endblock %}

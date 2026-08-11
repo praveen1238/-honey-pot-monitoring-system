@@ -1,0 +1,25 @@
+id,ip_address,username,password,created_at,browser,operating_system,failed_attempts
+24,127.0.0.1,admin,admin123,2026-08-06 11:58:06,Edge,Windows,5
+23,127.0.0.1,admin,admin123,2026-08-06 11:57:45,Edge,Windows,4
+22,127.0.0.1,nkcab qhvVJX d h,db DV,2026-08-06 11:56:59,Edge,Windows,1
+21,127.0.0.1,ijss,jklasasm,2026-08-06 08:54:03,Chrome,Windows,1
+20,127.0.0.1,jhi,klj,2026-08-06 08:50:22,Chrome,Windows,1
+19,127.0.0.1,qwo;kdwll;ke,e3ko,2026-08-06 08:34:53,Chrome,Windows,1
+18,127.0.0.1,"kak,jalkak",jan,2026-08-06 08:29:09,Chrome,Windows,1
+17,127.0.0.1,jiy89t,oli9-0,2026-08-06 08:05:54,Chrome,Windows,1
+16,127.0.0.1,jzo9zz,",maL:kjns",2026-08-06 08:01:37,Chrome,Windows,1
+15,127.0.0.1,jjsojoau8u,jhassiayji,2026-08-06 08:00:36,Chrome,Windows,1
+14,127.0.0.1,admin,password123,2026-08-06 06:41:32,Chrome,Windows,3
+13,127.0.0.1,iui88,uu8,2026-08-06 06:31:27,Chrome,Windows,1
+12,127.0.0.1,admin,password123,2026-08-06 06:29:20,Chrome,Windows,2
+11,127.0.0.1,admin,password123,2026-08-06 06:28:33,Chrome,Windows,1
+1,198.51.100.25,root,toor,2026-08-06 03:54:30,Chrome,Windows,4
+2,203.0.113.30,admin,password123,2026-08-06 00:54:30,Firefox,Linux,3
+3,192.0.2.10,support,support2024,2026-08-05 02:54:30,Safari,macOS,2
+4,198.51.100.25,developer,letmein,2026-08-04 21:54:30,Edge,Windows,5
+5,203.0.113.30,guest,guest,2026-08-04 01:54:30,Safari,iOS,1
+6,198.51.100.88,root,qwerty,2026-08-03 19:54:30,Chrome,Linux,6
+7,192.0.2.77,admin,123456,2026-08-03 05:54:30,Firefox,Windows,2
+8,198.51.100.41,oracle,oracle123,2026-08-02 05:54:30,Firefox,Android,4
+9,203.0.113.99,postgres,postgres,2026-08-01 03:54:30,Chrome,Windows,3
+10,198.51.100.25,backup,backup123,2026-07-31 05:54:30,Safari,macOS,1
